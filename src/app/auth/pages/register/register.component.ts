@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -9,7 +10,8 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 })
 export class RegisterComponent {
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,
+    private router: Router) { }
 
   miFormulario: FormGroup = this.fb.group({
     name: ['Alexander', [Validators.required, Validators.minLength(3)]],
@@ -18,7 +20,7 @@ export class RegisterComponent {
   })
 
   registro() {
-    console.log(this.miFormulario.valid);
     console.log(this.miFormulario.value);
+    this.router.navigateByUrl('/dashboard')
   }
 }
