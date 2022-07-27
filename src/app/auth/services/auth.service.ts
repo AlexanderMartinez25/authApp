@@ -39,7 +39,7 @@ export class AuthService {
         map(resp => resp.ok),
         // si las credenciales son inválidads mandamos un mensaje
         // asi lo podemos ejecutar sin que explote en la consola del navegador
-        catchError(err => of(false))
+        catchError(err => of(err.error.msg))
       )
 
   }
