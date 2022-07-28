@@ -26,13 +26,9 @@ export class AuthService {
     return this.http.post<AuthResponse>(url, body)
       .pipe(
         //si todo sale bien, guardamos los datos del usuario y el localstorage
-        tap(resp => {
-          if (resp.ok) {
-            localStorage.setItem('token', resp.token!);
-            this._usuario = {
-              name: resp.name!,
-              uid: resp.uid!
-            }
+        tap(({ ok, token }) => {
+          if (ok) {
+            localStorage.setItem('token', token!);
           }
         }),
         // mutar la respuesta del servicio
@@ -54,10 +50,6 @@ export class AuthService {
         tap(resp => {
           if (resp.ok) {
             localStorage.setItem('token', resp.token!);
-            this._usuario = {
-              name: resp.name!,
-              uid: resp.uid!
-            }
           }
         }),
         // mutar la respuesta del servicio
@@ -81,7 +73,8 @@ export class AuthService {
           localStorage.setItem('token', resp.token!);
           this._usuario = {
             name: resp.name!,
-            uid: resp.uid!
+            uid: resp.uid!,
+            email: resp.email!
           }
           return resp.ok!;
         }),
