@@ -19,6 +19,30 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
+  registro(name: string, email: string, password: string) {
+    const url = `${this.baseUrl}/auth/new`;
+    const body = { name, email, password };
+
+    return this.http.post<AuthResponse>(url, body)
+      .pipe(
+        //si todo sale bien, guardamos los datos del usuario y el localstorage
+        tap(resp => {
+          if (resp.ok) {
+            localStorage.setItem('token', resp.token!);
+            this._usuario = {
+              name: resp.name!,
+              uid: resp.uid!
+            }
+          }
+        }),
+        // mutar la respuesta del servicio
+        map(resp => resp.ok),
+        // si las credenciales son inválidads mandamos un mensaje
+        // asi lo podemos ejecutar sin que explote en la consola del navegador
+        catchError(err => of(err.error.msg))
+      )
+  }
+
   login(email: string, password: string) {
 
     const url = `${this.baseUrl}/auth`;
