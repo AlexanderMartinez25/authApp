@@ -22,9 +22,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {
-    //cuando no podamos modificar las urls
-    //resulve tambien el probelma de compatibilidad con navegadores viejos
-    useHash: true
+    useHash: false
   })],
   exports: [RouterModule]
 })
